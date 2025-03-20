@@ -1,11 +1,13 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Pool, neonConfig } from '@neondatabase/serverless';
 import { drizzle, NeonDatabase } from 'drizzle-orm/neon-serverless';
 import * as schema from './schema';
 import ws from 'ws';
+
 export const DRIZZLE = Symbol('drizzle-connection');
 
+@Global()
 @Module({
   providers: [
     {

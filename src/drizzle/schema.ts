@@ -4,9 +4,11 @@ import { pgTable, uuid, text, timestamp } from 'drizzle-orm/pg-core';
 export const users = pgTable('users', {
   id: uuid('id').defaultRandom().primaryKey(),
   email: text('email').unique().notNull(),
-  password: text('password').notNull(),
+  password: text('password'), // Optional for OAuth users
   name: text('name').notNull(),
   avatar: text('avatar'), // Default avatar from OAuth
+  oauthProvider: text('oauth_provider'), // e.g., 'google', 'github'
+  providerId: text('provider_id'), // Unique ID from OAuth provider
   createdAt: timestamp('created_at').defaultNow(),
 });
 
