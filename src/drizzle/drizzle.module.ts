@@ -1,30 +1,27 @@
 import { Global, Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { Pool, neonConfig } from '@neondatabase/serverless';
-import { drizzle, NeonDatabase } from 'drizzle-orm/neon-serverless';
-import * as schema from './schema';
-import ws from 'ws';
-
-export const DRIZZLE = Symbol('drizzle-connection');
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { drizzle } from 'drizzle-orm/neon-http';
+import { neon } from '@neondatabase/serverless';
 
 @Global()
 @Module({
+  imports: [ConfigModule.forRoot()], // Import ConfigModule
   providers: [
     {
-      provide: DRIZZLE,
-      inject: [ConfigService],
+      provide: 'drizzle-connection',
       useFactory: (config: ConfigService) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        neonConfig.webSocketConstructor = ws;
-
         const databaseUrl = config.get<string>('DATABASE_URL');
 
-        const pool = new Pool({ connectionString: databaseUrl });
+        if (!databaseUrl) {
+          throw new Error('DATABASE_URL is not defined');
+        }
 
-        return drizzle(pool, { schema }) as NeonDatabase<typeof schema>;
+        const sql = neon(databaseUrl); // Create a connection pool
+        return drizzle(sql); // Wrap the connection with Drizzle ORM
       },
+      inject: [ConfigService], // Inject ConfigService
     },
   ],
-  exports: [DRIZZLE],
+  exports: ['drizzle-connection'], // Export the provider
 })
 export class DrizzleModule {}

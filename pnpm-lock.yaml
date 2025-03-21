@@ -123,6 +123,9 @@ importers:
       '@types/supertest':
         specifier: ^6.0.2
         version: 6.0.2
+      '@types/ws':
+        specifier: ^8.18.0
+        version: 8.18.0
       eslint:
         specifier: ^9.18.0
         version: 9.22.0
@@ -1426,6 +1429,9 @@ packages:
 
   '@types/validator@13.12.2':
     resolution: {integrity: sha512-6SlHBzUW8Jhf3liqrGGXyTJSIFe4nqlJ5A5KaMZ2l/vbM3Wh3KSybots/wfWVzNLK4D1NZluDlSQIbIEPx6oyA==}
+
+  '@types/ws@8.18.0':
+    resolution: {integrity: sha512-8svvI3hMyvN0kKCJMvTJP/x6Y/EoQbepff882wL+Sn5QsXb3etnamgrJq4isrBxSJj5L2AuXcI0+bgkoAXGUJw==}
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -5574,6 +5580,10 @@ snapshots:
       '@types/superagent': 8.1.9
 
   '@types/validator@13.12.2': {}
+
+  '@types/ws@8.18.0':
+    dependencies:
+      '@types/node': 22.13.10
 
   '@types/yargs-parser@21.0.3': {}
 
