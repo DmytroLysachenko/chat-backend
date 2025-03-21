@@ -22,10 +22,15 @@ export class AuthService extends BaseService {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const [newUser] = await this.db
+    const newUser = await this.db
       .insert(users)
       .values({ email, password: hashedPassword, name })
-      .returning();
+      .returning()
+      .then((r) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { password, ...user } = r[0];
+        return user;
+      });
 
     return newUser;
   }
@@ -66,10 +71,15 @@ export class AuthService extends BaseService {
       return user;
     }
 
-    const [newUser] = await this.db
+    const newUser = await this.db
       .insert(users)
       .values({ email, name, avatar, oauthProvider: provider })
-      .returning();
+      .returning()
+      .then((r) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { password, ...user } = r[0];
+        return user;
+      });
 
     return newUser;
   }

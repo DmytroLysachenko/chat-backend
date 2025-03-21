@@ -1,27 +1,27 @@
-import { pgTable, uuid, text, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 // Users table
 export const users = pgTable('users', {
-  id: uuid('id').defaultRandom().primaryKey(),
+  id: uuid('id').primaryKey().defaultRandom(),
   email: text('email').unique().notNull(),
-  password: text('password'), // Optional for OAuth users
+  password: text('password'),
   name: text('name').notNull(),
-  avatar: text('avatar'), // Default avatar from OAuth
-  oauthProvider: text('oauth_provider'), // e.g., 'google', 'github'
-  providerId: text('provider_id'), // Unique ID from OAuth provider
+  avatar: text('avatar'),
+  oauthProvider: text('oauth_provider'),
+  providerId: text('provider_id'),
   createdAt: timestamp('created_at').defaultNow(),
 });
 
 // Chat rooms table
 export const rooms = pgTable('rooms', {
-  id: uuid('id').defaultRandom().primaryKey(),
+  id: uuid('id').primaryKey().defaultRandom(),
   name: text('name').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
 });
 
 // Messages table
 export const messages = pgTable('messages', {
-  id: uuid('id').defaultRandom().primaryKey(),
+  id: uuid('id').primaryKey().defaultRandom(),
   userId: uuid('user_id')
     .references(() => users.id)
     .notNull(),

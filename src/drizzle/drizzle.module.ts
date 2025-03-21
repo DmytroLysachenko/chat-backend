@@ -5,7 +5,7 @@ import { neon } from '@neondatabase/serverless';
 
 @Global()
 @Module({
-  imports: [ConfigModule.forRoot()], // Import ConfigModule
+  imports: [ConfigModule.forRoot()],
   providers: [
     {
       provide: 'drizzle-connection',
@@ -16,12 +16,13 @@ import { neon } from '@neondatabase/serverless';
           throw new Error('DATABASE_URL is not defined');
         }
 
-        const sql = neon(databaseUrl); // Create a connection pool
-        return drizzle(sql); // Wrap the connection with Drizzle ORM
+        const sql = neon(databaseUrl);
+
+        return drizzle(sql);
       },
-      inject: [ConfigService], // Inject ConfigService
+      inject: [ConfigService],
     },
   ],
-  exports: ['drizzle-connection'], // Export the provider
+  exports: ['drizzle-connection'],
 })
 export class DrizzleModule {}
